@@ -5,7 +5,7 @@ import HeadersKeys as HK
 # Para obtener la lista de pedidos y su status en un dict
 def lista_pedidos():
     listaPedidosAPI = "https://api.defontana.com/api/Order/List"
-    listaPedidosAPIQS = {"FromDate":FR.hace2Semanas,"ToDate":FR.en1Semana,"ItemsPerPage":"1000","PageNumber":"0","fromNumber":"0"}
+    listaPedidosAPIQS = {"FromDate":FR.hace2Semanas,"ToDate":FR.en1Semana,"ItemsPerPage":"1000","PageNumber":"0","fromNumber":"4400"}
     listaPedidosJson = requests.request("GET", listaPedidosAPI, headers=HK.headersDefontana, params=listaPedidosAPIQS).json()
     listaStatusPedidosDefon = {}
     for i in listaPedidosJson["items"]:
@@ -18,11 +18,12 @@ def detalle_pedido(numero):
     obtenerPedidoAPIQS = {"number":numero}
     pedidoJson = requests.request("GET", obtenerPedidoAPI, headers=HK.headersDefontana, params=obtenerPedidoAPIQS)
     try:
-        nombreCliente = pedidoJson.json()["orderData"]["client"]["name"] # A veces, no sé por qué, retorna None. Por eso la excepción 
+        nombreCliente = pedidoJson.json()["orderData"]["client"]["name"]
     except:
         return None
     else:
-        fechaVenc = pedidoJson.json()["orderData"]["creationDate"]
+        fechaCrea = pedidoJson.json()["orderData"]["creationDate"]
+        fechaVenc = pedidoJson.json()["orderData"]["expirationDate"]
         localPedido = pedidoJson.json()["orderData"]["shopID"]
         detallePedido = ["Código \t", "Cant. \t", "Descripción\n"]
         for item in pedidoJson.json()["orderData"]["details"]:
@@ -35,4 +36,5 @@ def detalle_pedido(numero):
         detallePedido.append("\n"+pedidoJson.json()["orderData"]["comment"])
         detallePedido = "".join(detallePedido)
         nombrePedidoTrello = str(numero)+" - "+nombreCliente
-        return nombrePedidoTrello, detallePedido, fechaVenc, localPedido
+        return nombrePedidoTrello, detallePedido, fechaCrea, fechaVenc, localPedido
+    

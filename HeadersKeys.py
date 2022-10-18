@@ -3,8 +3,10 @@ defontanaKEY = 'Bearer aquí'
 headersDefontana = {'Authorization': defontanaKEY}
 
 # Trello headers, key & token
+tKey = "key"
+tToken = "token"
 trelloQuery = {
-   'key': 'key',
-   'token': 'token'
+   'key': tKey,
+   'token': tToken
 }
 trelloHeaders = {"cookie": "headers"}

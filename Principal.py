@@ -22,39 +22,39 @@ def obtenerTarjetas():
 # Comparar si existe en Trello y crea tarjeta, o actualiza su estado
 def cargar_trello(numero, pedidos, tarjetas):
     try:
-        nombre, detalle, fecha, local = PD.detalle_pedido(numero) # A veces, no sé por qué, el pedido retorna None. Por eso la excepción
+        nombre, detalle, fechaC, fechaV, local = PD.detalle_pedido(numero)
     except:
         print(numero, "Vacío")
         return None
     else:
-        if numero not in tarjetas and datetime.strptime(fecha, "%Y-%m-%dT%H:%M:%S").date() > FR.hace2Semanas and pedidos[numero] == "P (PENDIENTE)":
-            TT.post_trello(nombre, detalle, fecha)
+        if numero not in tarjetas and datetime.strptime(fechaC, "%Y-%m-%dT%H:%M:%S").date() > FR.hace1Semana and pedidos[numero] == "P (PENDIENTE)":
+            if local == "MONS.":
+                etiqueta = TT.etiqueta_Monsalve
+                lista= TT.monsalve_idList
+            elif local == "PLAYA":
+                etiqueta = TT.etiqueta_Playa
+                lista = TT.playa_idList
+            else:
+                etiqueta = ""
+                lista = TT.pendientes_idList
+            TT.post_trello(nombre, detalle, fechaC, fechaV, idLabels=etiqueta, idList=lista)
         if numero in tarjetas:
             estado = pedidos[numero]
             if estado == "P (PENDIENTE)":
-                estado = "false"
-                if local == "MONS.":
-                    TT.mod_trello(tarjetas[numero], estado, TT.monsalve_idList)
-                elif local == "PLAYA":
-                    TT.mod_trello(tarjetas[numero], estado, TT.playa_idList)
-                else:
-                    TT.mod_trello(tarjetas[numero], estado, TT.pendientes_idList)
-            elif datetime.strptime(fecha, "%Y-%m-%dT%H:%M:%S").date() < FR.ayer and estado in lista_pedidos_Cerrados:
+                pass
+            elif datetime.strptime(fechaC, "%Y-%m-%dT%H:%M:%S").date() < FR.ayer and estado in lista_pedidos_Cerrados:
                 elimina_Trello(numero, tarjetas)
-            # elif estado in lista_pedidos_Semilistos:
-            #     estado = "false"
-            #     TT.mod_trello(tarjetas[numero], estado, TT.facturando_idList)
             elif estado in lista_pedidos_Cerrados:
                 estado = "false"
                 TT.mod_trello(tarjetas[numero], estado, TT.listo_idList)
             else:
                 print(numero, pedidos[numero])
 
-# Elimina tarjetas Trello
+# Archiva tarjetas Trello
 def elimina_Trello(numero, tarjetas):
     TT.mod_trello(tarjetas[numero], "true", TT.listo_idList)
 
-# Elimina tarjetas Trello que no estén en el listado de pedidos pendientes
+# Archiva tarjetas Trello que no estén en el listado de pedidos pendientes
 def elimina_Trello2(pedidos, tarjetas):
     for numero in tarjetas:
         if numero not in pedidos:
@@ -70,6 +70,11 @@ def principal():
 
 # Bucle que mantiene el programa actualizándose   
 while True:
+    print("Actualizando...")
     principal()
-    print("Actualización: ", datetime.now())
-    time.sleep(300) # Tiempo de actualización: 5 minutos
+    # print("\r", end="")
+    print("Actualización: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    time.sleep(300) # Tiempo de espera: 5 minutos
+
+# Test
+# principal()

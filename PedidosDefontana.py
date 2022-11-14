@@ -22,10 +22,13 @@ def detalle_pedido(numero):
     except:
         return None
     else:
-        fechaCrea = pedidoJson.json()["orderData"]["creationDate"]
+        fechaCrea = pedidoJson.json()["orderData"]["creationDate"][0:19]
         fechaVenc = pedidoJson.json()["orderData"]["expirationDate"]
         localPedido = pedidoJson.json()["orderData"]["shopID"]
         detallePedido = ["Código \t", "Cant. \t", "Descripción\n"]
+        comentario = pedidoJson.json()["orderData"]["comment"]
+        if comentario == None:
+            comentario = ""
         for item in pedidoJson.json()["orderData"]["details"]:
             detallePedido.append(item["code"])
             detallePedido.append(" \t")
@@ -33,8 +36,7 @@ def detalle_pedido(numero):
             detallePedido.append(" \t")
             detallePedido.append(item["name"])
             detallePedido.append("\n")
-        detallePedido.append("\n"+pedidoJson.json()["orderData"]["comment"])
+        detallePedido.append("\n"+comentario)
         detallePedido = "".join(detallePedido)
         nombrePedidoTrello = str(numero)+" - "+nombreCliente
         return nombrePedidoTrello, detallePedido, fechaCrea, fechaVenc, localPedido
-    

@@ -71,7 +71,10 @@ def principal():
 # Bucle que mantiene el programa actualizándose   
 while True:
     print("Actualizando...")
-    principal()
+    try:
+        principal()
+    except Exception as e:
+        print(e)
     # print("\r", end="")
     print("Actualización: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     time.sleep(300) # Tiempo de espera: 5 minutos

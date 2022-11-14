@@ -1,8 +1,9 @@
-import PedidosDefontana as PD
-import TarjetasTrello as TT
-import FechasRelativas as FR
 import time
 from datetime import datetime
+
+import FechasRelativas as FR
+import PedidosDefontana as PD
+import TarjetasTrello as TT
 
 lista_pedidos_Cerrados = ["EFX (EN_DESPACHO_FACTURADO)", "EEX (EN_DESPACHO_EN_FACTURACION)", 
 "DEX (DESPACHADO_EN_FACTURACION)", "DFX (DESPACHADO_FACTURADO)", "M (CERRADO_MANUAL)"]

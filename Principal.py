@@ -29,7 +29,10 @@ def cargar_trello(numero, pedidos, tarjetas):
         return None
     else:
         if numero not in tarjetas and datetime.strptime(fechaC, "%Y-%m-%dT%H:%M:%S").date() > FR.hace1Semana and pedidos[numero] == "P (PENDIENTE)":
-            if local == "MONS.":
+            if "0-02 MAURICIO DANIEL BRAVO CORDERO" in nombre:
+                etiqueta = TT.etiqueta_Sodexo
+                lista = TT.sodexo_idList
+            elif local == "MONS.":
                 etiqueta = TT.etiqueta_Monsalve
                 lista= TT.monsalve_idList
             elif local == "PLAYA":

@@ -6,10 +6,12 @@ pendientes_idList = "61ce1d50882ab9559d105e44" #Pendientes Santiago
 playa_idList = "62f67cff9ba3ce0c4ffd4be2" # Pendientes playa
 monsalve_idList = "62f67d119efeba8106426433" # Pendientes Monsalve
 listo_idList = "61ce1d50882ab9559d105e46"
+sodexo_idList = "63728d27fb591a00e0656147"
 
 # Lista labelList de Trello board "Pedidos"
 etiqueta_Playa = "62eaecd5dfd104854cc9ff3d"
 etiqueta_Monsalve = "62f691943b8e600bfc3bad29"
+etiqueta_Sodexo = "63728b8b472fe7012578ce78"
 
 # Create Trello card
 def post_trello(nombre, detalle, fechaC, fechaV, idLabels="false", idList=pendientes_idList):

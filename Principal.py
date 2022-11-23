@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from importlib import reload
 
 import FechasRelativas as FR
 import PedidosDefontana as PD
@@ -81,7 +82,10 @@ while True:
         print(e)
     # print("\r", end="")
     print("Actualización: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    time.sleep(300) # Tiempo de espera: 5 minutos
+    # time.sleep(300) # Tiempo de espera: 5 minutos
+    # Siempre que esté corriendo en el servidor, no vale la pena tener el tiempo de espera
+    FR = reload(FR)
+
 
 # Test
 # principal()
